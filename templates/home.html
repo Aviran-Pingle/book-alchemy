@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="d-flex container mt-3 justify-content-between">
+        <form method="post" class="d-flex">
+            <input type="text" name="filter" />
+            <input type="submit" value="Search" class="btn btn-primary btn-sm rounded-0">
+        </form>
+        <form method="post" class="d-flex">
+            <label class="mx-1" for="sort">Sort by:</label>
+            <select name="sort" id="sort" onchange="this.form.submit()">
+                <option value=""></option>
+                <option value="title">Title</option>
+                <option value="author">Author Name</option>
+            </select>
+        </form>
+    </div>
+    <div class="row row-cols-4 gap-3 m-4 justify-content-center">
+    {% for book in books %}
+        <div class="card col" style="width: 16rem;">
+            <img style="height: 15rem" src="{{ book.cover_image_url }}" class="card-img-top" alt="{{ book.title }} cover" />
+            <div class="card-body">
+                <h5 class="card-title">{{ book.title }}</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Author: {{ book.author.name }}</li>
+            </ul>
+            <div class="card-body p-2">
+                <a href="{{ url_for('routes.delete_book', book_id=book.id) }}" class="btn btn-sm btn-danger">Delete</a>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
